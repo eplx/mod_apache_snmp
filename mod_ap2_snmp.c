@@ -473,6 +473,7 @@ apr_off_t bcount, kbcount;
 
 apr_time_t nowtime;
 apr_interval_time_t up_time;
+ap_generation_t mpm_generation;
 float requests_per_sec, kbytes_per_sec, kbytes_per_request;
 
 unsigned long kb_traffic;
@@ -482,6 +483,8 @@ char traffic_buffer[LEN_BUFFER]; 	//for totalTraffic
 
 char file_temp[LEN_BUFFER+20];
 FILE *fp;		// file handler for interface file (snmp agent <--> apache module)
+
+ap_mpm_query(AP_MPMQ_GENERATION, &mpm_generation);
 
 if (!r->handler || strcmp(r->handler, "ap2_snmp")) return (DECLINED);
 
@@ -507,7 +510,7 @@ kb_traffic = 0;
 
  	// view process and threads to get KB and access count
 
-	//copied from mod_status.c
+	// code copied from mod_status.c
     for (i = 0; i < server_limit; ++i) {
         ps_record = ap_get_scoreboard_process(i);
 
@@ -516,7 +519,22 @@ kb_traffic = 0;
 
             ap_copy_scoreboard_worker(ws_record, i, j);
             res = ws_record->status;
+				
+				// busyWorkers & idleWorkers
+            if (!ps_record->quiescing
+                && ps_record->pid) {
+                if (res == SERVER_READY) {
+                    if (ps_record->generation == mpm_generation)
+                        ready++;
+                }
+                else if (res != SERVER_DEAD &&
+                         res != SERVER_STARTING &&
+                         res != SERVER_IDLE_KILL) {
+                    busy++;
+                }
+            }
 
+				// Total Access & Total Traffic
             lres = ws_record->access_count;
             bytes = ws_record->bytes_served;
 
