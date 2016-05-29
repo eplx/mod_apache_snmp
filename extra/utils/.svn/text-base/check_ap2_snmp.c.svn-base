@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <net-snmp/net-snmp-config.h>
+#include <net-snmp/net-snmp-includes.h>
+#include <net-snmp/agent/net-snmp-agent-includes.h>
+#include <net-snmp/agent/watcher.h>
+
+
+// HTTP request
+#define MAX_RECEIVE 512
+#define MAX_SEND 512
+#define DEFAULT_PORT 80
+#define DEFAULT_ADDRESS "127.0.0.1"
+
+
+
+int main() {
+struct tm *now;
+time_t lt;
+
+
+printf("\n\nCheck mod-ap2-snmp installation | mod-apache-snmp by Esteban Pizzini ");
+printf("\n----------------------------------------------------------\n");
+
+lt = time(NULL);
+now = localtime(&lt);
+printf(asctime(now));
+
+
+printf("\n\n 1) Checking mod-ap2-snmp temp files(1)\n");
+check_tmp_file();
+
+printf("\n\n 2) Checking HTTP /ap2_snmp location access - 127.0.0.1 port 443");
+send_http_to_local("127.0.0.1","443","/ap2_snmp");
+
+printf("\n\n 3) Checking mod-ap2-snmp temp files(2)");
+check_tmp_file();
+
+
+printf("\n Finish\n");
+}
+
+
+int send_http_to_local (char* ip, char* port, char* location)
+{
+	int sockfd;
+	char caracter;
+	char linea_send [512];
+	char linea_recv [512];
+	int rcv_bytes;
+
+// conexion
+	struct sockaddr_in serv_addr;
+
+	bzero( (char *) &serv_addr, sizeof(serv_addr));
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");	// Ip Address
+	serv_addr.sin_port = htons(atol("443"));		// Port
+
+
+	/* Opens TCP socket */
+	if ( ( sockfd = socket( AF_INET, SOCK_STREAM, 0) ) < 0 )
+	{
+		close(sockfd); // close connection
+		printf( "\nsocket() Error\n");
+		return -1;
+	}
+
+	/* Connects */
+	if ( connect (sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0 )
+	{
+		close(sockfd); // close connection
+		printf("\nconnect() Error \n");
+		return -1;
+	}
+
+	strcpy(linea_recv,"");
+	sprintf(linea_send,"GET %s \r\n",location);
+
+	if ( strlen(linea_send) > 0)
+		{
+			printf("\n Send -> %s",linea_send);
+			send( sockfd, linea_send, MAX_SEND, 0);
+			strcpy(linea_recv,"");
+			rcv_bytes = recv( sockfd, linea_recv, MAX_RECEIVE , 0);
+
+			if (rcv_bytes > 0)
+				{
+					linea_recv[rcv_bytes] = '\0';
+					printf("\n Response -> %s",linea_recv);
+				}
+		}
+return 0;	//	error
+}
+
+void check_tmp_file () {
+	FILE *fp;	// archivo de intercambio
+	unsigned long totalAccess,traffic;
+	int busy_workers,idle_workers;
+	float requests_per_sec,kbytes_per_sec,kbytes_per_request;
+
+	fp = fopen("/tmp/ap2_snmp.tmp","r");
+	if (fp != NULL) {
+		printf("\nopen ap2_snmp - Ok");
+		rewind(fp);
+		 /*	fwrite(&count,sizeof(unsigned long),1,fp);			//totalaccess
+			fwrite(&kb_traffic,sizeof(unsigned long),1,fp);		//traffic
+			fwrite(&busy,sizeof(int),1,fp);						//busy workers
+			fwrite(&ready,sizeof(int),1,fp);					//idle workers
+			fwrite(&requests_per_sec,sizeof(float),1,fp);		//requests / second
+			fwrite(&kbytes_per_sec,sizeof(float),1,fp);			//kbytes / second
+			fwrite(&kbytes_per_request,sizeof(float),1,fp);		//kbytes / second
+	*/
+		printf("\nReading ap2_snmp...");
+		fread(&totalAccess,sizeof(unsigned long),1,fp);
+		fread(&traffic,sizeof(unsigned long),1,fp);
+		fread(&busy_workers,sizeof(int),1,fp);
+		fread(&idle_workers,sizeof(int),1,fp);
+		fread(&requests_per_sec,sizeof(float),1,fp);
+		fread(&kbytes_per_sec,sizeof(float),1,fp);
+		fread(&kbytes_per_request,sizeof(float),1,fp);
+		fclose(fp);
+		printf("\nap2_snmp -> totalAccess: %d",totalAccess);
+		printf("\nap2_snmp -> traffic: %d",traffic);
+		printf("\nap2_snmp -> busy workers: %d",busy_workers);
+		printf("\nap2_snmp -> idle workers: %d",idle_workers);
+		printf("\nap2_snmp -> requests_per_sec: %f",requests_per_sec);
+		printf("\nap2_snmp -> kbytes_per_sec: %f",kbytes_per_sec);
+		printf("\nap2_snmp -> kbytes_per_requests: %f",kbytes_per_request);
+
+}
+else {
+	printf("FAIL: can't open temporary file ap2_snmp.tmp");
+}
+
+
+
+}

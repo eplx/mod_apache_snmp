@@ -1,0 +1,8 @@
+#!/bin/sh
+
+PATH="/bin:/usr/bin:/usr/local/bin"
+
+snmpget -OQv -c public -v1 localhost APACHE2-MIB::serverRequestsPerSec.0
+snmpget -OQv -c public -v1 localhost APACHE2-MIB::serverRequestsPerSec.0
+snmpget -OQv -c public -v1 localhost APACHE2-MIB::serverUptime.0
+echo Apache Requests per Second

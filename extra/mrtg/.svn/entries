@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="10"
+   name=""
+   committed-date="2005-08-15T23:20:36.039392Z"
+   url="http://cold/svn/tags/mod_ap2_snmp_1.04/extra/mrtg"
+   last-author="root"
+   kind="dir"
+   uuid="d1cda781-84ea-0310-aecc-df7800aa453a"
+   revision="17"/>
+<entry
+   committed-rev="10"
+   name="mrtg.cfg.example"
+   text-time="2006-08-01T02:49:21.218750Z"
+   committed-date="2005-08-15T23:20:36.039392Z"
+   checksum="c92d1ab4acbbb50520d0d1cb80168a55"
+   last-author="root"
+   kind="file"
+   prop-time="2006-08-01T02:49:21.109375Z"/>
+<entry
+   committed-rev="10"
+   name="apacheBytesPerRequest2mrtg"
+   text-time="2006-08-01T02:49:21.234375Z"
+   committed-date="2005-08-15T23:20:36.039392Z"
+   checksum="c8fa7d81f1ae8f0701d69efabb191952"
+   last-author="root"
+   kind="file"
+   prop-time="2006-08-01T02:49:21.140625Z"/>
+<entry
+   committed-rev="10"
+   name="apacheBytesPerSecond2mrtg"
+   text-time="2006-08-01T02:49:21.250000Z"
+   committed-date="2005-08-15T23:20:36.039392Z"
+   checksum="92268aba5b0db310b572ef7cb55a338b"
+   last-author="root"
+   kind="file"
+   prop-time="2006-08-01T02:49:21.156250Z"/>
+<entry
+   committed-rev="10"
+   name="readme.txt"
+   text-time="2006-08-01T02:49:21.265625Z"
+   committed-date="2005-08-15T23:20:36.039392Z"
+   checksum="33c9e15ceac04fe95e61ac5ec56a45c1"
+   last-author="root"
+   kind="file"
+   prop-time="2006-08-01T02:49:21.171875Z"/>
+<entry
+   committed-rev="10"
+   name="apacheRequestsPerSecond2mrtg"
+   text-time="2006-08-01T02:49:21.281250Z"
+   committed-date="2005-08-15T23:20:36.039392Z"
+   checksum="4e9bc0e6a4b6f6ea7a4d934f0627a316"
+   last-author="root"
+   kind="file"
+   prop-time="2006-08-01T02:49:21.187500Z"/>
+</wc-entries>

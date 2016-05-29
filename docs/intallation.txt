@@ -1,0 +1,42 @@
+MOD-APACHE-SNMP: INSTALLATION
+
+Document Author: Esteban Pizzini
+Last Update: 12/11/2004
+
+----------------------------------------------------------------------------------------
+
+Requirements:
+
+        Apache Web Server 2.0.xx - (http://www.apache.org)
+        Net-SNMP 5.1 (o superior) - (http://www.net-snmp.org)
+
+        Mod-APACHE-SNMP
+
+1) Install Apache Web Server with DSO support enabled.
+
+./configure --enable-so [..otras opciones..]
+make
+make install
+
+2) Unzip NET-SNMP sources.
+
+3) Unzip Mod-APACHE-SNMP sources.
+
+4) Copy files into Net-SNMP directory to support Apache's MIB:
+
+- Copy net-snmp-module\ -->PATH-SOURCES-NET-SNMP\agent\mibgroup\apache2\ (create apache2\)
+- Copy extra\ap2_snmp.h --> PATH-SOURCES-NET-SNMP\agent\mibgroup\
+- Copy mib\APACHE2-MIB.txt --> PATH-SOURCES-NET-SNMP\mibs\
+
+5) Install Net-SNMP
+
+./configure --with-mib-modules = ap2_snmp
+make
+make install
+
+6) Compile and install SNMP module for Apache.
+
+- Edit install.sh and modify the variables with the correct path of Apache and Net-SNMP libraries.
+- \PATH-SOURCES-MOD-APACHE-SNMP\install.sh
+
+

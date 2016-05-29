@@ -1,0 +1,10 @@
+#!/bin/sh
+
+PATH="/bin:/usr/bin:/usr/local/bin"
+
+kbytes=`snmpget -OQv -c public -v1 localhost APACHE2-MIB::serverKBytesPerSec.0`
+bytes=`echo "$kbytes * 1024" | bc`
+echo $bytes
+echo $bytes
+snmpget -OQv -c public -v1 localhost APACHE2-MIB::serverUptime.0
+echo Apache Bytes per Second

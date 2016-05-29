@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="16"
+   name=""
+   committed-date="2006-08-01T02:43:56.179485Z"
+   url="http://cold/svn/tags/mod_ap2_snmp_1.04/extra/utils"
+   last-author="esteban"
+   kind="dir"
+   uuid="d1cda781-84ea-0310-aecc-df7800aa453a"
+   revision="17"/>
+<entry
+   committed-rev="16"
+   name="check_ap2_snmp.c"
+   text-time="2006-08-01T02:49:21.000000Z"
+   committed-date="2006-08-01T02:43:56.179485Z"
+   checksum="eba3bc1436ddc584c976bb3f7e0c5c1d"
+   last-author="esteban"
+   kind="file"
+   prop-time="2006-08-01T02:49:20.984375Z"/>
+</wc-entries>

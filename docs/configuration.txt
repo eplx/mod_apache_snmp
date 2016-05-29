@@ -1,0 +1,93 @@
+MOD-APACHE-SNMP: CONFIGURATION
+
+Document Author: Esteban Pizzini
+Last Update: 31/07/2006
+
+----------------------------------------------------------------------------------------
+
+There are two principal things that you have to do in the configuration stage:
+
+a) Configure the SNMP agent setting the communities and grants that you willl use for the managed objects.
+
+b) Load SNMP module in Apache (with LoadModule) and set which agent it´s going to use.
+
+For point a), you should configure snmpd.conf (NET-SNMP agent configuration file) as you do normally. (See http://www.net-snmp.org/man/snmpd.conf.html).
+
+For point b), there are some configuration directives detailed below:
+
+
+Inside httpd.conf you should set the following directives:
+-----------------------------------------------------------
+
+
+Load and Activate SNMP module, using the following:
+
+- LoadModule ap2_snmp_module modules/mod_ap2_snmp.so
+
+
+
+Then you must specify a Location named "ap2_snmp" (See example) and use the following directives to configure the module.
+
+
+snmp_community: specify the snmp community that Apache will use to communicate with SNMP agent.
+
+snmp_agent_address: Agent SNMP IP address.
+
+snmp_tmp_dir: Temporal directory that´s used to interchange information between Apache and the SNMP agent. Apache must have write permission in that directory.
+
+snmp_version: SNMP version used by Apache to communicate with the SNMP Agent.
+
+snmpv3_user: If you use SNMPv3, you must specify the user and password here.
+
+snmp_http_address: IP address and port used by the SNMP agent to make requests to Apache.
+
+
+httpd.conf example (using the module's directives)
+---------------------------------------------------
+
+LoadModule ap2_snmp_module modules/mod_ap2_snmp.so
+
+
+<Location /ap2_snmp>
+
+    Sethandler ap2_snmp # handler managed by snmp module.
+
+    Order Deny,Allow
+
+    Deny from all
+
+    Allow from 127.0.0.1
+
+</Location>
+
+
+snmp_community public
+snmp_agent_address localhost
+snmp_tmp_dir /tmp/
+snmp_version 3
+snmpv3_user user1 pass1
+snmp_http_address 127.0.0.1 8080
+
+
+
+Note: 
+ExtendedStatus directive must be On (ExtendedStatus On). This directive is used by mod_status but it's needed by mod-apache-snmp
+
+
+EXAMPLES
+---------
+
+Using Net-SNMP (http://www.net-snmp.org) applications (snmpget in this example) you can get the information of the objects defined in the mib (APACHE2-MIB.txt).
+ 
+
+Getting total traffic (in kb) of Apache:
+snmpget -v1 -c public localhost APACHE2-MIB::totalTraffic.0 (for example, using SNMP v1)
+
+Getting Server Status:
+snmpget -v1 -c public localhost APACHE2-MIB::serverStatus.0
+
+Getting Server Uptime:
+snmpget -v1 -c public localhost APACHE2-MIB::serverUptime.0
+
+Getting HTTP 404 errors count:
+snmpget -v1 -c public localhost APACHE2-MIB::httpError404.0

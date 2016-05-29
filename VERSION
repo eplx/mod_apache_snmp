@@ -1,0 +1,39 @@
+*************************** Version 1.04 *****************************
+01/08/2006
+
+- bugs fixed: close TCP socket if connection fails (reported by Sylvain Goletto)
+- log information added to check_ap2_snmp.c
+
+*************************** Version 1.03 *****************************
+
+- mod_ap2_snmp.h -> DEFAULT_AGENT_HTTP_SERVER (default constant for APACHE2-MIB::agentHttpAddress) added
+- serverStatus.c -> check_estado modificated to avoid problems checking pidfile.
+		 -> degug information added
+- totalAccess.c  -> debug information added
+
+*************************** Version 1.02 *****************************
+12/11/2004
+
+- Includes major bug fixes and patchs.
+
+*NEW MIB's objects*:
+	- serverRequestsPerSec 	= Total requests / Uptime (in secs)
+	- serverKBytesPerSec	= Total KBytes / Uptime (in secs)
+	- serverKBytesPerRequest = Total KBytes / Total requests
+
+- Includes patch for compiling on FreeBSD 5.3.
+
+*************************** Version 1.01 *****************************
+25/07/2004
+Changes to totalAccess implementation MIB object to show only HTTP client accesses and
+agentHttpAccess counts only HTTP requests by snmp agent (used for apache status checking).
+ 
+Code comments added.
+
+
+*************************** Version 1.00 *****************************
+18/07/2004
+First release version. 
+Please visit http://mod-apache-snmp.sourceforge.net/ for documentation
+Mirror: http://eplx.homeip.net/mod_apache_snmp/
+

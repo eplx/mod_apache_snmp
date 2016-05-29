@@ -1,0 +1,75 @@
+######################################################################
+# Multi Router Traffic Grapher -- Sample Configuration File
+######################################################################
+# This file is for use with mrtg-2.5.4c
+
+# Global configuration
+WorkDir: /var/www/mrtg
+WriteExpires: Yes
+
+#
+# Define global options
+#
+
+LoadMIBs: /usr/local/share/snmp/mibs/APACHE2-MIB.txt
+NoMib2: yes
+workdir: /var/mrtg
+
+################################ APACHE2-MIB #########################################
+
+#
+# Busy vs. Idle Workers
+#
+# MaxBytes should be set the same as "MaxClients" in httpd.conf
+#
+
+Target[apache.busyIdleWorkers]: enterprises.19786.1.1.2.3.0&enterprises.19786.1.1.2.4.0:public@localhost
+Title[apache.busyIdleWorkers]: Workers
+PageTop[apache.busyIdleWorkers]: <H1>Apache Workers</H1>
+MaxBytes[apache.busyIdleWorkers]: 150
+ShortLegend[apache.busyIdleWorkers]: Workers
+YLegend[apache.busyIdleWorkers]: Workers
+LegendI[apache.busyIdleWorkers]: Busy Workers
+LegendO[apache.busyIdleWorkers]: Idle Workers
+Legend1[apache.busyIdleWorkers]: Busy Workers
+Legend2[apache.busyIdleWorkers]: Idle Workers
+Options[apache.busyIdleWorkers]: gauge,growright,nopercent
+
+
+#
+# Bytes per Second
+#
+# A helper script is used to convert KBytes to Bytes and because
+# MRTG doesn't understand "DisplayString" type values.
+#
+
+Target[apache.kbytesPerSecond]: `/usr/local/bin/apacheBytesPerSecond2mrtg`
+Title[apache.kbytesPerSecond]: Bytes per Second
+PageTop[apache.kbytesPerSecond]: <H1>Apache Bytes per Second</H1>
+MaxBytes[apache.kbytesPerSecond]: 1250000
+ShortLegend[apache.kbytesPerSecond]:
+YLegend[apache.kbytesPerSecond]: Bytes/Second
+LegendI[apache.kbytesPerSecond]: B/sec
+LegendO[apache.kbytesPerSecond]:
+Legend1[apache.kbytesPerSecond]: B/sec
+Legend2[apache.kbytesPerSecond]:
+Options[apache.kbytesPerSecond]: gauge,growright,nopercent
+
+#
+# Bytes per Request
+#
+# A helper script is used to convert KBytes to Bytes and because
+# MRTG doesn't understand "DisplayString" type values.
+#
+
+Target[apache.kbytesPerRequest]: `/usr/local/bin/apacheBytesPerRequest2mrtg`
+Title[apache.kbytesPerRequest]: Bytes per Request
+PageTop[apache.kbytesPerRequest]: <H1>Apache Bytes per Request</H1>
+MaxBytes[apache.kbytesPerRequest]: 1250000
+ShortLegend[apache.kbytesPerRequest]:
+YLegend[apache.kbytesPerRequest]: Bytes/Request
+LegendI[apache.kbytesPerRequest]: B/request
+LegendO[apache.kbytesPerRequest]:
+Legend1[apache.kbytesPerRequest]: B/request
+Legend2[apache.kbytesPerRequest]:
+Options[apache.kbytesPerRequest]: gauge,growright,nopercent

@@ -1,0 +1,7 @@
+Index: serverUptime.h
+===================================================================
+RCS file: /home/cvs_sources/ap2_snmp/net-snmp-module/serverUptime.h,v
+retrieving revision 1.1.1.1
+diff -r1.1.1.1 serverUptime.h
+12a13
+> void format_tiempo(time_t, char*);
