@@ -2,3 +2,5 @@ Apache SNMP Module
 See documentation at http://mod-apache-snmp.sourceforge.net
 
 mod-apache-snmp allows you to monitor configuration and status of Apache Web Server by SNMP (Simple Network Management Protocol)
+
+Requires: net-snmp
